@@ -2,8 +2,13 @@ const listInput = document.querySelector(".list-input");
 const submitButton = document.querySelector(".submit-todo");
 const todoList = document.querySelector(".todo-list");
 const loginButton = document.getElementById("login-button");
+const currentUserName = document.getElementById("current-user-name");
+
 const savedUser = localStorage.getItem("currentUser");
+
 const currentUser = savedUser ? JSON.parse(savedUser) : { name: "Guest" };
+
+currentUserName.textContent = currentUser.name;
 
 loginButton.addEventListener("click", function () {
     window.location.href = "../login-page/login.html";
@@ -64,17 +69,6 @@ function loadState() {
         const parsed = JSON.parse(saved);
         appState.todos = Array.isArray(parsed.todos) ? parsed.todos : [];
         return;
-    }
-
-    const legacySaved = localStorage.getItem("todoAppState");
-
-    if (legacySaved) {
-        const parsed = JSON.parse(legacySaved);
-
-        if (parsed.currentUser?.name === currentUser.name && Array.isArray(parsed.todos)) {
-            appState.todos = parsed.todos;
-            saveState();
-        }
     }
 }
 

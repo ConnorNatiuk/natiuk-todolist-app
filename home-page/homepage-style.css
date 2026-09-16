@@ -30,6 +30,37 @@ h1 {
     backdrop-filter: blur(12px);
 }
 
+.profiles {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 1;
+}
+
+#login-button {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(19, 8, 31, 0.2);
+    backdrop-filter: blur(8px);
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+#login-button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+#login-button:focus-visible {
+    outline: 2px solid #c89cff;
+    outline-offset: 3px;
+}
+
 .todo-form {
     display: flex;
     gap: 0.75rem;
