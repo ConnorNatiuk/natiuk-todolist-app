@@ -48,22 +48,7 @@ body {
     color: #73628d;
 }
 
-.password-login {
-    width: 100%;
-    border: none;
-    border-radius: 12px;
-    padding: 0.9rem 1rem;
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.92);
-    color: #2a0f4d;
-    outline: none;
-    box-shadow: inset 0 0 0 2px rgba(122, 61, 184, 0.2);
-}
-
-.password-login::placeholder {
-    color: #73628d;
-}
-
+.login-confirmation,
 .navigate-home {
     border: none;
     border-radius: 12px;
@@ -78,6 +63,17 @@ body {
     width: 100%;
 }
 
+.login-confirmation {
+    margin-bottom: 0.75rem;
+}
+
+.navigate-home {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-confirmation:hover,
 .navigate-home:hover {
     transform: translateY(-1px);
 }

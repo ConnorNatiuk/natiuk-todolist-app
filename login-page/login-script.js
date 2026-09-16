@@ -1,40 +1,33 @@
 const navigateHome = document.querySelector(".navigate-home");
-const passwordLogin = document.querySelector(".password-login");
 const usernameLogin = document.querySelector(".username-login");
+const loginConfirmation = document.querySelector(".login-confirmation");
 
-navigateHome.addEventListener('click', async function() {
-    const saved = await saveUserCredentials();
+localStorage.removeItem("userCredentials");
 
-    if (!saved) {
+navigateHome.addEventListener('click', function() {
+    window.location.href = "../home-page/homepage.html";
+})
+
+loginConfirmation.addEventListener('click', function() {
+    const savedInfo = saveCurrentUser();
+
+    if (!savedInfo) {
         return;
     }
 
-    window.location.href = "homepage.html";
+    usernameLogin.value = '';
+    window.location.href = "../home-page/homepage.html";
 })
 
-async function saveUserCredentials() {
+function saveCurrentUser() {
     const username = usernameLogin.value.trim();
-    const password = passwordLogin.value;
 
-    if (username === "" || password === "") {
+    if (username === "") {
         return false;
     }
 
     localStorage.setItem("currentUser", JSON.stringify({
         name: username
-    }));
-
-    const passwordBuffer = await crypto.subtle.digest(
-        "SHA-256",
-        new TextEncoder().encode(password)
-    );
-    const passwordHash = Array.from(new Uint8Array(passwordBuffer))
-        .map(byte => byte.toString(16).padStart(2, "0"))
-        .join("");
-
-    localStorage.setItem("userCredentials", JSON.stringify({
-        username,
-        passwordHash
     }));
 
     return true;

@@ -2,9 +2,11 @@ const listInput = document.querySelector(".list-input");
 const submitButton = document.querySelector(".submit-todo");
 const todoList = document.querySelector(".todo-list");
 const loginButton = document.getElementById("login-button");
+const savedUser = localStorage.getItem("currentUser");
+const currentUser = savedUser ? JSON.parse(savedUser) : { name: "Guest" };
 
 loginButton.addEventListener("click", function () {
-    window.location.href = "login.html";
+    window.location.href = "../login-page/login.html";
 });
 
 submitButton.addEventListener("click", function () {
@@ -37,23 +39,42 @@ function addListItem() {
 }
 
 const appState = {
-    currentUser: {
-        name: "Connor Natiuk",
-        email: "connorsemail@gmail.com"
-    },
+    currentUser,
     todos: []
 };
 
+loadState();
+renderTodos();
+
+function getTodoStorageKey() {
+    return `todoAppState:${encodeURIComponent(currentUser.name)}`;
+}
+
 function saveState() {
-    localStorage.setItem("todoAppState", JSON.stringify(appState))
+    localStorage.setItem(getTodoStorageKey(), JSON.stringify({
+        currentUser: appState.currentUser,
+        todos: appState.todos
+    }));
 }
 
 function loadState() {
-    const saved = localStorage.getItem("todoAppState")
+    const saved = localStorage.getItem(getTodoStorageKey());
 
     if (saved) {
         const parsed = JSON.parse(saved);
-        Object.assign(appState, parsed)
+        appState.todos = Array.isArray(parsed.todos) ? parsed.todos : [];
+        return;
+    }
+
+    const legacySaved = localStorage.getItem("todoAppState");
+
+    if (legacySaved) {
+        const parsed = JSON.parse(legacySaved);
+
+        if (parsed.currentUser?.name === currentUser.name && Array.isArray(parsed.todos)) {
+            appState.todos = parsed.todos;
+            saveState();
+        }
     }
 }
 
