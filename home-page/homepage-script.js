@@ -9,8 +9,15 @@ const savedUser = localStorage.getItem("currentUser");
 const currentUser = savedUser ? JSON.parse(savedUser) : { name: "Guest" };
 
 currentUserName.textContent = currentUser.name;
+loginButton.textContent = savedUser ? "Logout" : "Login";
 
 loginButton.addEventListener("click", function () {
+    if (savedUser) {
+        localStorage.removeItem("currentUser");
+        window.location.href = "../login-page/login.html";
+        return;
+    }
+
     window.location.href = "../login-page/login.html";
 });
 

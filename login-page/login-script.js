@@ -42,20 +42,36 @@ function deleteCurrentUser() {
     const username = usernameLogin.value.trim();
 
     if (username === "") {
+        console.log("Nothing here")
+        return false;
+    }
+    const key = `todoAppState:${encodeURIComponent(username)}`;
+    const savedUser = localStorage.getItem(key);
+
+    if (!savedUser) {
+        return false;
+    }
+    
+    let parsed;
+    try {
+        parsed = JSON.parse(savedUser)
+    } catch (error) {
+        console.log(error)
         return false;
     }
 
-    localStorage.removeItem(`todoAppState:${encodeURIComponent(username)}`);
+    parsedName = parsed.currentUser.name;
 
-    const savedUser = localStorage.getItem("currentUser");
-    if (savedUser) {
-        const parsed = JSON.parse(savedUser);
-        if (parsed.name === username) {
-            localStorage.removeItem("currentUser");
-        }
+    if (username === parsedName) {
+        const confirmed = window.confirm(
+        `Are you sure you want to delete the user "${username}" and all of their to-do items?`
+        );
+        if (!confirmed) { return false };
+        localStorage.removeItem(`todoAppState:${encodeURIComponent(username)}`);
+        usernameLogin.value = '';
+
+        return true;
     }
 
-    usernameLogin.value = '';
-
-    return true;
+    return false;
 }
